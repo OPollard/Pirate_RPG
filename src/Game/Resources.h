@@ -33,7 +33,7 @@ struct Resources
 		sf::Texture notification;	
 		
 		sf::Texture ocean;
-		sf::IntRect waves{ 0,64,64,64 };
+		sf::IntRect spriteRect{ 0,0,32,32 };
 
 		// CHARACTERS
 		sf::Texture player;

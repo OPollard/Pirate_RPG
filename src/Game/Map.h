@@ -28,7 +28,7 @@ struct Map
 
 	sf::Clock clock;
 
-	uint32_t gridUnit = 64;
+	uint32_t gridUnit = 32;
 	uint32_t DrawOverlap = 7; // previous = 7
 
 	uint32_t mapXSize = 40;

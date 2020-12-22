@@ -13,7 +13,7 @@ Map::Map(sf::RenderWindow& window, Resources& r, sf::View& mapView)
 	clock.restart();
 	
 	// calibrate map grid to tile size
-	gridUnit = 64;
+	gridUnit = 32;
 
 	// fill map with tiles
 	for (uint32_t x = 0; x < mapXSize; ++x)

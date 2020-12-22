@@ -25,8 +25,9 @@ bool Resources::FindFilePaths()
 
 	// textures
 	if (!notification.loadFromFile("../assets/textures/notificationboard.png"))			return false;
-	if (!ocean.loadFromFile("../assets/textures/ocean.png"))							return false;
-	
+
+	// world
+	if (!ocean.loadFromFile("../assets/world/ocean.png"))								return false;
 
 	// characters
 	if (!player.loadFromFile("../assets/characters/player.png"))						return false;
@@ -92,7 +93,9 @@ bool Resources::FindFilePaths()
 
 	// textures
 	if (!notification.loadFromFile("assets/textures/notificationboard.png"))			return false;
-	if (!ocean.loadFromFile("assets/textures/ocean.png"))								return false;
+
+	// world
+	if (!ocean.loadFromFile("assets/world/ocean.png"))									return false;
 
 	// characters
 	if (!player.loadFromFile("assets/characters/player.png"))							return false;

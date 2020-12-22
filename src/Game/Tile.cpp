@@ -21,7 +21,7 @@ Tile::Tile(std::vector<sf::Texture>& textures)
 // update animated tiles
 void Tile::Update(sf::Clock& clock, Resources& r)
 {
-	if (animation.Update(sourceSprite, r.waves, clock, animDuration, 4))
+	if (animation.Update(sourceSprite, r.spriteRect, clock, animDuration, 4))
 	{
 		sprite.setTextureRect(sourceSprite);
 	}
