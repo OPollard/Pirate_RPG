@@ -1,8 +1,10 @@
 #pragma once
 
-#include "..\Entities\Player.h"
-#include "Level.h"
+#include "SFML/Graphics.hpp"
 
+#include "..\Entities\Player.h"
+
+struct Level;
 
 struct GameState
 {
@@ -10,6 +12,7 @@ struct GameState
 	// ______ CONSTRUCTORS, DESTRUCTORS & INITIALISERS ______ \\
 	
 		GameState();
+		~GameState();
 		void InitialiseState();
 
 

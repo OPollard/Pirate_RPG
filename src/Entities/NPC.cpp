@@ -1,10 +1,10 @@
 
+
 #include "..\Game\State.h"
 #include "..\Modules\Math.h"
+#include "..\Game\Resources.h"
+
 #include "NPC.h"
-
-#include <iostream>
-
 
 
 NPC::NPC(sf::RenderWindow& window, Resources& r, const std::string& name, bool enableMovement, sf::Vector2f coord, float speed, float dir)

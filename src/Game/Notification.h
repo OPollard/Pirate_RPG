@@ -1,7 +1,9 @@
 #pragma once
 
-#include "Resources.h"
+#include "SFML/Graphics.hpp"
+#include "SFML/Audio.hpp"
 
+struct Resources;
 
 struct Notification
 {

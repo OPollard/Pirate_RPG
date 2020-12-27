@@ -2,13 +2,14 @@
 #pragma once
 
 #include "Tile.h"
-#include "..\Entities\Player.h"
 
+struct Player;
 
 struct Map
 {
 	// ______ CONSTRUCTORS, DESTRUCTORS & INITIALISERS ______ \\
 
+	Map();
 	Map(sf::RenderWindow& window, Resources& r, sf::View& mapView);
 	~Map();
 

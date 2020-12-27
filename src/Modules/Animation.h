@@ -1,8 +1,8 @@
 #pragma once
 
-#include "..\Game\Resources.h"
-#include "..\Modules\Attachment.h"
+#include "SFML/Graphics.hpp"
 
+struct Attachment;
 
 struct Animation
 {

@@ -1,8 +1,15 @@
 
+#include "Resources.h"
+
 #include "Tile.h"
 
 // static definitions
 float Tile::animDuration = 4.0f;
+
+Tile::Tile()
+{
+
+}
 
 // singular 
 Tile::Tile(sf::Texture& texture)
@@ -25,5 +32,10 @@ void Tile::Update(sf::Clock& clock, Resources& r)
 	{
 		sprite.setTextureRect(sourceSprite);
 	}
+}
+
+Tile::~Tile()
+{
+
 }
 

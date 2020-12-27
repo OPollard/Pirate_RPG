@@ -1,3 +1,6 @@
+
+#include "..\Game\Resources.h"
+
 #include "Entity.h"
 
 

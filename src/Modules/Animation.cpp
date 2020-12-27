@@ -1,7 +1,8 @@
 
-#include "Animation.h"
+
 #include "..\Modules\Attachment.h"
-#include <iostream>
+
+#include "Animation.h"
 
 Animation::Animation()
 {

@@ -1,16 +1,19 @@
 
 #pragma once
 
-#include "Resources.h"
 #include "..\Modules\Animation.h"
+
+struct Resources;
 
 struct Tile
 {
 
 	// ______ CONSTRUCTORS, DESTRUCTORS & INITIALISERS ______ \\
-
+	
+	Tile();
 	Tile(sf::Texture& texture);
 	Tile(std::vector<sf::Texture>& textures);
+	~Tile();
 
 	// ______ FUNCTIONS ______ \\
 	

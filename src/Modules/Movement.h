@@ -1,6 +1,6 @@
 #pragma once
 
-#include "..\Game\Resources.h"
+#include "SFML/Graphics.hpp"
 
 enum class eDirection
 {

@@ -1,6 +1,7 @@
 #pragma once
 
-#include "..\Game\Resources.h"
+#include "..\Modules\Animation.h"
+
 #include "Entity.h"
 
 struct NPC : public Entity
@@ -21,6 +22,7 @@ struct NPC : public Entity
 	sf::Clock clock;
 
 	Animation animation;
+
 	sf::IntRect sourceSprite{0, 64, 64, 64};
 
 };

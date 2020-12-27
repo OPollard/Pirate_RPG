@@ -1,8 +1,8 @@
 
+
+#include "Resources.h"
+
 #include "Notification.h"
-
-#include <iostream>
-
 
 Notification::Notification()
 {

@@ -2,7 +2,6 @@
 
 #include "Notification.h"
 
-
 struct GUI
 {
 	// ______ CONSTRUCTORS, DESTRUCTORS & INITIALISERS ______ \\
@@ -28,7 +27,7 @@ struct GUI
 	Notification message;
 
 	sf::Clock clock;
-	sf::Uint64 frame;
+	sf::Uint64 frame = 0;
 	sf::Text fps;
 
 };

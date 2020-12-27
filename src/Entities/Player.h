@@ -1,9 +1,12 @@
 #pragma once
 
-#include "..\Game\Resources.h"
-#include "Entity.h"
+
 #include "..\Modules\Animation.h"
 #include "..\Modules\Attachment.h"
+
+#include "Entity.h"
+
+
 
 struct Player : public Entity
 {

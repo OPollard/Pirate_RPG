@@ -1,6 +1,8 @@
 #pragma once
 
-#include "..\Entities\Player.h"
+#include "SFML/Graphics.hpp"
+
+struct Player;
 
 struct Level
 {

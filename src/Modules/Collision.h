@@ -1,8 +1,6 @@
 
 #pragma once
 
-#include <iostream>
-#include "..\Entities\Entity.h"
 #include "..\Entities\Player.h"
 
 // check if pixels are overlapping

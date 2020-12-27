@@ -172,6 +172,7 @@
     <ClCompile Include="Game\Tile.cpp" />
     <ClCompile Include="Game\GUI.cpp" />
     <ClCompile Include="Entities\NPC.cpp" />
+    <ClCompile Include="Modules\Performance.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Modules\Attachment.h" />
@@ -190,6 +191,7 @@
     <ClInclude Include="Game\GUI.h" />
     <ClInclude Include="Entities\NPC.h" />
     <ClInclude Include="Modules\Movement.h" />
+    <ClInclude Include="Modules\Performance.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,14 +1,19 @@
 
 
-#include <iostream>
 #include <sstream>
+#include <iostream>
 
 #include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>
 #include <SFML/Audio.hpp>
 
+#include "..\Entities\NPC.h"
+
 #include "..\Modules\Collision.h"
 #include "..\Modules\Math.h"
+
+#include "GUI.h"
+#include "Map.h"
 
 #include "World.h"
 
@@ -51,11 +56,22 @@ void World::InitialiseLevel(sf::RenderWindow& window, Player& player)
 // game loop
 void World::UpdateAndRender(sf::RenderWindow& window, Player& player)
 {
-	
+
 	UpdateLevel(window, player);
+
 	UpdateEntities(window, player);
+#ifdef PERF 
+	perf.Lap("Entities");
+#endif 
 	UpdateCollisions(window, player);
+#ifdef PERF 
+	perf.Lap("Collisions");
+#endif 
 	UpdateGUI(window, player);	
+#ifdef PERF 
+	perf.Stop("GUI");
+	perf.PrintTimeLog();
+#endif 
 
 }
 
@@ -63,8 +79,16 @@ void World::UpdateAndRender(sf::RenderWindow& window, Player& player)
 void World::UpdateLevel(sf::RenderWindow& window, Player& player)
 {
 	// update map
+#ifdef PERF 
+	perf.Start();
 	map->Update(window, player, mapView, r);
+	perf.Lap("Update Map");
+#endif 
+#ifdef PERF 
 	map->Render(window, player, mapView);
+	perf.Lap("Render Map");
+
+#endif 
 }
 
 // all players and bots

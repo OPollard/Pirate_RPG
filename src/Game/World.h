@@ -1,10 +1,14 @@
 #pragma once
 
-#include "Level.h"
-#include "GUI.h"
-#include "Map.h"
 
-#include "..\Entities\NPC.h"
+#include "..\Modules\Performance.h"
+#include "Resources.h"
+#include "Level.h"
+
+struct GUI;
+struct Map;
+struct Entity;
+
 
 struct World : public Level
 {
@@ -33,12 +37,20 @@ struct World : public Level
 		
 	Resources r;
 
+	sf::View mapView;
+
 	std::unique_ptr<Map> map;
 
-	sf::View mapView;
+	std::unique_ptr<GUI> gui;	
 
 	std::vector<std::unique_ptr<Entity>> NPCs;
 
-	std::unique_ptr<GUI> gui;
+	// ______ DEBUG PERFORMANCE ______ \\ 
+
+#define PERF // comment to turn on/off
+
+#ifdef PERF
+	Performance perf;
+#endif // PERF
 
 };

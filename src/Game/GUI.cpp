@@ -1,5 +1,9 @@
+
+
 #include <sstream>
-#include <iostream>
+
+#include "Resources.h"
+
 #include "GUI.h"
 
 

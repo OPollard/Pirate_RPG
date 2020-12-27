@@ -1,6 +1,14 @@
 
-#include "Map.h"
+#include "Resources.h"
+
 #include "..\Entities\Player.h"
+
+#include "Map.h"
+
+Map::Map()
+{
+
+}
 
 Map::Map(sf::RenderWindow& window, Resources& r, sf::View& mapView)
 {

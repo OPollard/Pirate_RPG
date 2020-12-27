@@ -1,6 +1,6 @@
 
-
 #include "World.h"
+
 #include "State.h"
 
 
@@ -84,4 +84,9 @@ void GameState::CloseGame()
 	}
 
 	window.close();
+}
+
+GameState::~GameState()
+{
+
 }

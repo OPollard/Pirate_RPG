@@ -1,11 +1,8 @@
 
 #include "..\Game\State.h"
+#include "..\Game\Resources.h"
 
 #include "Player.h"
-#include "..\Modules\Animation.h"
-#include <iostream>
-
-
 
 void Player::Initialise(sf::RenderWindow& window, Resources& r)
 {
@@ -141,8 +138,6 @@ void Player::HandleInput(sf::RenderWindow& window, Resources& r)
 
 void Player::RandomiseLoot(Resources& r)
 {
-	// declaration
-	std::cout << "New Loot" << std::endl;
 
 	// random
 	int index = std::rand() % 25;

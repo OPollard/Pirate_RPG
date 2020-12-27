@@ -1,7 +1,9 @@
 #pragma once
 
-#include "..\Game\Resources.h"
+
 #include "..\Modules\Movement.h"
+
+struct Resources;
 
 struct Entity
 {
@@ -17,7 +19,7 @@ struct Entity
 
 	sf::Sprite sprite;
 
-	std::string name = "None";
+	std::string name = "NA";
 
 	Movement movement;
 

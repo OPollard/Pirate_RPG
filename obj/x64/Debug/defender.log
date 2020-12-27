@@ -2,14 +2,12 @@
   NPC.cpp
   Player.cpp
   GUI.cpp
-  Level.cpp
   Map.cpp
-  Notification.cpp
-  Resources.cpp
   State.cpp
   Tile.cpp
   World.cpp
   main.cpp
   Animation.cpp
+  Performance.cpp
   Generating Code...
   defender.vcxproj -> C:\Users\opoll\source\repos\C++\PirateRPG\bin\x64\Debug\defender.exe
