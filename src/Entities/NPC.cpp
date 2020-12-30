@@ -39,6 +39,7 @@ void NPC::Initialise(sf::RenderWindow& window, Resources& r, const std::string& 
 
 void NPC::Update(sf::RenderWindow& window, Resources& r)
 {
+	
 
 	if (movement.yCoord > 400.0f && std::abs(movement.velocity.y) > 0.1f)
 	{
@@ -62,21 +63,21 @@ void NPC::Update(sf::RenderWindow& window, Resources& r)
 	movement.yCoord += movement.velocity.y;
 
 	// moving up
-	if (movement.velocity.y < -0.1f)
+	if (movement.velocity.x < -0.1f)
 	{
-		animation.Update(sourceSprite, r.walkUp, clock, 1 / (movement.speed / 2), 4);
-	}
-	else if (movement.velocity.y > 0.1f)
-	{
-		animation.Update(sourceSprite, r.walkDown, clock, 1 / (movement.speed / 2), 4);
+		animation.Update(sourceSprite, r.walkLeft, clock, 1 / (movement.speed / 2), 4);
 	}
 	else if (movement.velocity.x > 0.1f)
 	{
 		animation.Update(sourceSprite, r.walkRight, clock, 1 / (movement.speed / 2), 4);
 	}
-	else if (movement.velocity.x < -0.1f)
+	else if (movement.velocity.y > 0.1f)
 	{
-		animation.Update(sourceSprite, r.walkLeft, clock, 1 / (movement.speed / 2), 4);
+		animation.Update(sourceSprite, r.walkDown, clock, 1 / (movement.speed / 2), 4);
+	}
+	else if (movement.velocity.y < -0.1f)
+	{
+		animation.Update(sourceSprite, r.walkUp, clock, 1 / (movement.speed / 2), 4);
 	}
 	else
 	{
@@ -93,3 +94,4 @@ void NPC::Update(sf::RenderWindow& window, Resources& r)
 	window.draw(sprite);
 
 }
+

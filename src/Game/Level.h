@@ -22,6 +22,7 @@ struct Level
 	virtual void UpdateLevel(sf::RenderWindow& window, Player& player);
 	virtual void UpdateGUI(sf::RenderWindow& window, Player& player);
 	virtual void UpdateView(sf::RenderWindow& window, sf::Event& event);
+	virtual void UpdateEvents(sf::RenderWindow& window, Player& player, sf::Event& event);
 	void UpdateMousePositions(sf::RenderWindow& window);
 
 	virtual void CheckEventActions(sf::Event& e);

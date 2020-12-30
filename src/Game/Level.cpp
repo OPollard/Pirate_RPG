@@ -39,6 +39,11 @@ void Level::UpdateView(sf::RenderWindow& window, sf::Event& event)
 
 }
 
+void Level::UpdateEvents(sf::RenderWindow& window, Player& player, sf::Event& event)
+{
+
+}
+
 void Level::UpdateMousePositions(sf::RenderWindow& window)
 {
 	mousePosScreen = sf::Mouse::getPosition();

@@ -26,3 +26,9 @@ static float WorldDeg(float deg)
 {
 	return deg - 90;
 }
+
+// return inverse value
+static float Inverse(float deg)
+{
+	return deg *= -1.0f;
+}

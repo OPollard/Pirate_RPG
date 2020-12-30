@@ -6,22 +6,27 @@
 
 struct Performance
 {
-	void Start();
-	void Lap(const std::string& subjectName);
-	void Stop(const std::string& subjectName);
+	static void Start();
+	static void Lap(const std::string& subjectName);
+	static void Stop(const std::string& subjectName);
 
+	static bool IntervalElapsed(long long milliseconds);
 
-	void PrintTimeLog();
+	static void PrintTimeLog();
 
-	std::map<std::string, long long> TimeLogger;
+	static bool debugMode;
 
 private:
 
-	std::chrono::high_resolution_clock::time_point startPoint;
-	std::chrono::high_resolution_clock::time_point endPoint;
+	static std::chrono::high_resolution_clock::time_point startPoint;
+	static std::chrono::high_resolution_clock::time_point endPoint;
+	static std::chrono::high_resolution_clock::time_point printPoint;
 
-	long long start = 0;
-	long long end = 0;
+	static long long start;
+	static long long end;
+	static long long lastPrint;
+
+	static std::map<std::string, long long> TimeLogger;
 
 };
 

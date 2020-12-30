@@ -19,7 +19,9 @@ struct Player : public Entity
 
 	void Update(sf::RenderWindow& window, Resources& r) override;
 	void Render(sf::RenderWindow& window);
-	void HandleInput(sf::RenderWindow& window, Resources& r);
+	void MovementInput(sf::RenderWindow& window, Resources& r);
+	void KeyInput(sf::RenderWindow& window, Resources& r, sf::Event& event);
+	
 
 	void MoveUp(sf::RenderWindow& window, Resources& r);
 	void MoveDown(sf::RenderWindow& window, Resources& r);
@@ -41,6 +43,6 @@ struct Player : public Entity
 	Animation animation;
 	sf::IntRect sourceSprite{ 0, 64, 64, 64 };
 
-	bool clicked = false;
+	bool pressed = false;
 };
 

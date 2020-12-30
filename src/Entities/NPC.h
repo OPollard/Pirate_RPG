@@ -16,7 +16,6 @@ struct NPC : public Entity
 
 	void Update(sf::RenderWindow& window, Resources& r) override;
 
-
 	// ______ VARIABLES ______ \\
 
 	sf::Clock clock;

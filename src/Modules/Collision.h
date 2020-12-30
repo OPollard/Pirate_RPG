@@ -2,60 +2,75 @@
 #pragma once
 
 #include "..\Entities\Player.h"
+#include "..\Modules\Math.h"
 
-// check if pixels are overlapping
-static bool isOverlapping(const Entity& subject, const Entity& target)
+
+// check if pixels are overlapping with next move
+static bool Overlaps(const Entity& subject, const Entity& target)
 {
-	return subject.sprite.getGlobalBounds().intersects(target.sprite.getGlobalBounds());
+	// next frame bounds
+	sf::FloatRect nextPosition = subject.sprite.getGlobalBounds();
+
+	nextPosition.left += subject.movement.velocity.x;
+	nextPosition.top += subject.movement.velocity.y;
+
+	// check future collision
+	return nextPosition.intersects(target.sprite.getGlobalBounds());
 }
 
-// determine who wins exchange
-static void ResolveConflict(Entity& subject, Entity& target)
+// Halt NPC movement
+static void StopNPC(Entity& target)
 {
-
-	// fetch movement data
-	float subjectX = std::abs(subject.movement.velocity.x);
-	float subjectY = std::abs(subject.movement.velocity.y);
-
-	float targetX = std::abs(target.movement.velocity.x);
-	float targetY = std::abs(target.movement.velocity.y);
-
-	int subjectEnergy = static_cast<int>(subjectX + subjectY);
-	int targetEnergy = static_cast<int>(targetX + targetY);
+	target.movement.xCoord -= target.movement.velocity.x;
+	target.movement.yCoord -= target.movement.velocity.y;
+}
 
 
-	// protaganist wins
-	if (subjectEnergy > targetEnergy)
+// reverse NPC's velocities
+static void ReboundNPCs(Entity& subject, Entity& target)
+{
+	// bool switch to force only 1 directional velocity flip
+	bool isXFlipped = false;
+
+	// next frame x position
+	sf::FloatRect nextXPosition = subject.sprite.getGlobalBounds();
+	nextXPosition.left += subject.movement.velocity.x;
+
+	// check future collision
+	if (nextXPosition.intersects(target.sprite.getGlobalBounds()))
 	{
-		target.movement.xCoord += ((subjectEnergy - targetEnergy) * subject.movement.velocity.x);
-		target.movement.yCoord += ((subjectEnergy - targetEnergy) * subject.movement.velocity.y);
+		// reverse horizontal vector
+		Inverse(subject.movement.velocity.x);
+		Inverse(target.movement.velocity.x);
+
+		// prevents y flipping
+		isXFlipped = true;
 	}
-	// antaganist wins
-	else if (targetEnergy > subjectEnergy)
-	{
-		subject.movement.xCoord += ((targetEnergy - subjectEnergy) * target.movement.velocity.x);
-		subject.movement.yCoord += ((targetEnergy - subjectEnergy) * target.movement.velocity.y);
-	}
-	// equal momentum
-	else
-	{
-		subject.movement.xCoord += (target.movement.velocity.x);
-		subject.movement.yCoord += (target.movement.velocity.y);
 
-		target.movement.xCoord += (subject.movement.velocity.x);
-		target.movement.yCoord += (subject.movement.velocity.y);
+	// same but vertical vector
+	if (!isXFlipped)
+	{
+		sf::FloatRect nextYPosition = subject.sprite.getGlobalBounds();
+		nextYPosition.top += subject.movement.velocity.y;
+
+		if (nextYPosition.intersects(target.sprite.getGlobalBounds()))
+		{
+			Inverse(subject.movement.velocity.y);
+			Inverse(target.movement.velocity.y);
+		}
 	}
 }
 
+// complete collision script
 static void Consolidate(std::vector<std::unique_ptr<Entity>>& npcs, Player& player)
 {
 
 	// player queries npc
 	for (auto& npc : npcs)
 	{
-		if (isOverlapping(player, *npc))
+		if (Overlaps(player, *npc))
 		{
-			ResolveConflict(player, *npc);
+			StopNPC(*npc);
 		}
 	}
 
@@ -67,9 +82,9 @@ static void Consolidate(std::vector<std::unique_ptr<Entity>>& npcs, Player& play
 			// prevent querying self
 			if (npc != othernpc)
 			{
-				if (isOverlapping(*npc, *othernpc))
+				if (Overlaps(*npc, *othernpc))
 				{
-					ResolveConflict(*npc, *othernpc);
+					ReboundNPCs(*npc, *othernpc);
 				}
 			}
 		}

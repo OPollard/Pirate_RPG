@@ -32,8 +32,8 @@ struct Map
 	uint32_t gridUnit = 32;
 	uint32_t DrawOverlap = 7; // previous = 7
 
-	uint32_t mapXSize = 40;
-	uint32_t mapYSize = 40;
+	uint32_t mapXSize = 100;
+	uint32_t mapYSize = 100;
 	int32_t LeftEdge = 0;
 	int32_t RightEdge = 0;
 	int32_t TopEdge = 0;

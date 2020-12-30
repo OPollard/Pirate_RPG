@@ -28,6 +28,7 @@ struct World : public Level
 	void UpdateLevel(sf::RenderWindow& window, Player& player) override;
 	void UpdateGUI(sf::RenderWindow& window, Player& player) override;
 	void UpdateView(sf::RenderWindow& window, sf::Event& event) override;
+	void UpdateEvents(sf::RenderWindow& window, Player& player, sf::Event& event) override;
 
 	void CloseLevel() override;
 
@@ -45,12 +46,5 @@ struct World : public Level
 
 	std::vector<std::unique_ptr<Entity>> NPCs;
 
-	// ______ DEBUG PERFORMANCE ______ \\ 
-
-#define PERF // comment to turn on/off
-
-#ifdef PERF
-	Performance perf;
-#endif // PERF
 
 };

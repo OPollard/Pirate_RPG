@@ -2,7 +2,13 @@
 #include "..\Game\State.h"
 #include "..\Game\Resources.h"
 
+#include "..\Modules\Performance.h"
+
 #include "Player.h"
+
+
+// temp
+#include <iostream>
 
 void Player::Initialise(sf::RenderWindow& window, Resources& r)
 {
@@ -16,12 +22,12 @@ void Player::Initialise(sf::RenderWindow& window, Resources& r)
 	movement.direction = { 0.0f, 0.0f };
 	movement.velocity = { 0.0f, 0.0f };
 	
-	movement.xCoord = 100;
-	movement.yCoord = 100;
+	movement.xCoord = 1280; // 32 grid unit
+	movement.yCoord = 1280; // 32 grid unit
 	
 	// init sprite 
-	sprite.setTexture(r.player);
-	sprite.setTextureRect(sourceSprite);
+	sprite.setTexture(r.player); // r.player
+	sprite.setTextureRect(sourceSprite); // sourcesprite
 	sprite.setOrigin(static_cast<float>(sprite.getTextureRect().width/2),static_cast<float>(sprite.getTextureRect().height/2));
 	sprite.setPosition((float)movement.xCoord, (float)movement.yCoord);
 
@@ -47,13 +53,14 @@ void Player::Initialise(sf::RenderWindow& window, Resources& r)
 
 void Player::Update(sf::RenderWindow& window, Resources& r)
 {
+		
 	// position
 	sprite.setPosition((float)movement.xCoord, (float)movement.yCoord);
 	leftHand.sprite.setPosition(sprite.getPosition() + leftHand.offset);
 	rightHand.sprite.setPosition(sprite.getPosition() + rightHand.offset);
-
+	
 	// user input
-	HandleInput(window, r);
+	MovementInput(window, r);
 
 	// draw character
 	Render(window);
@@ -92,7 +99,7 @@ void Player::Render(sf::RenderWindow& window)
 }
 
 // user input
-void Player::HandleInput(sf::RenderWindow& window, Resources& r)
+void Player::MovementInput(sf::RenderWindow& window, Resources& r)
 {
 	
 	typedef sf::Keyboard k;
@@ -121,18 +128,36 @@ void Player::HandleInput(sf::RenderWindow& window, Resources& r)
 			MoveLeft(window, r);
 		}
 
-		if (k::isKeyPressed(k::F) || sf::Mouse::isButtonPressed(sf::Mouse::Button::Right))
+
+}
+
+// player keyboard / mouse commands
+void Player::KeyInput(sf::RenderWindow& window, Resources& r, sf::Event& event)
+{
+
+	// actions on press
+	if (event.type == sf::Event::KeyPressed || event.type == sf::Event::MouseButtonPressed)
+	{
+		typedef sf::Keyboard K;
+		
+		// selection
+		if (event.key.code == K::E)
 		{
-			if (!clicked)
-			{
-				RandomiseLoot(r);
-				clicked = true;
-			}
+			RandomiseLoot(r);
+			std::cout << "Equipment Changed" << std::endl;
 		}
-		else
+		if (event.key.code == K::F || event.mouseButton.button == sf::Mouse::Right)
 		{
-			clicked = false;
+			std::cout << "Interact" << std::endl;
 		}
+		if (event.key.code == K::P)
+		{
+			Performance::debugMode = !Performance::debugMode;
+
+			if (Performance::debugMode) std::cout << "Debug Mode: ON" << std::endl;
+			else std::cout << "Debug Mode: OFF" << std::endl;	RandomiseLoot(r);
+		}
+	}
 
 }
 

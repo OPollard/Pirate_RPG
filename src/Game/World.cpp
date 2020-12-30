@@ -20,7 +20,8 @@
 
 World::World(sf::RenderWindow& window, Player& player)
 {
-	// Ensure no missing files
+
+	// ensure no missing files
 	if (!r.LoadResources())
 	{
 		std::cout << "Error Loading Resources! " << std::endl;
@@ -38,8 +39,8 @@ void World::InitialiseLevel(sf::RenderWindow& window, Player& player)
 	player.Initialise(window, r);
 
 	// init NPC's
-	NPCs.emplace_back(std::unique_ptr<NPC>(new NPC(window, r, "Goblin", true, { 300.0f,600.0f }, 3.0f, WorldDeg(270.0f))));
-	NPCs.emplace_back(std::unique_ptr<NPC>(new NPC(window, r, "Danger Boss", true, { 400.0f,200.0f }, 1.0f, WorldDeg(180.0f))));
+	NPCs.emplace_back(std::unique_ptr<NPC>(new NPC(window, r, "Goblin", true, { 100.0f, 500.0f }, 2.0f, WorldDeg(-180.0f))));
+	NPCs.emplace_back(std::unique_ptr<NPC>(new NPC(window, r, "Danger Boss", true, { 100.0f,100.0f }, 1.0f, WorldDeg(175.0f))));
 
 	// init GUI
 	gui = std::unique_ptr<GUI>(new GUI(window, r));
@@ -56,22 +57,19 @@ void World::InitialiseLevel(sf::RenderWindow& window, Player& player)
 // game loop
 void World::UpdateAndRender(sf::RenderWindow& window, Player& player)
 {
-
+	Performance::Start();
 	UpdateLevel(window, player);
 
 	UpdateEntities(window, player);
-#ifdef PERF 
-	perf.Lap("Entities");
-#endif 
+	Performance::Lap("Entities");
+
 	UpdateCollisions(window, player);
-#ifdef PERF 
-	perf.Lap("Collisions");
-#endif 
+	Performance::Lap("Collisions");
+
 	UpdateGUI(window, player);	
-#ifdef PERF 
-	perf.Stop("GUI");
-	perf.PrintTimeLog();
-#endif 
+	Performance::Stop("GUI");
+
+	Performance::PrintTimeLog();
 
 }
 
@@ -79,24 +77,18 @@ void World::UpdateAndRender(sf::RenderWindow& window, Player& player)
 void World::UpdateLevel(sf::RenderWindow& window, Player& player)
 {
 	// update map
-#ifdef PERF 
-	perf.Start();
-	map->Update(window, player, mapView, r);
-	perf.Lap("Update Map");
-#endif 
-#ifdef PERF 
-	map->Render(window, player, mapView);
-	perf.Lap("Render Map");
 
-#endif 
+	map->Update(window, player, mapView, r);
+	Performance::Lap("Update Map");
+
+	map->Render(window, player, mapView);
+	Performance::Lap("Render Map");
+
 }
 
 // all players and bots
 void World::UpdateEntities(sf::RenderWindow& window, Player& player)
 {
-
-	// update player
-	player.Update(window, r);
 
 	// update NPC's
 	for (auto& n : NPCs)
@@ -104,12 +96,13 @@ void World::UpdateEntities(sf::RenderWindow& window, Player& player)
 		n->Update(window, r);
 	}
 
+	// update player
+	player.Update(window, r);
 }
 
 // determine collisions
 void World::UpdateCollisions(sf::RenderWindow& window, Player& player)
 {
-
 	Consolidate(NPCs, player);
 }
 
@@ -131,12 +124,19 @@ void World::UpdateGUI(sf::RenderWindow& window, Player& player)
 
 }
 
-// adjust view to new window
 void World::UpdateView(sf::RenderWindow& window, sf::Event& event)
 {
+	// update view
 	mapView.setSize((float)event.size.width, (float)event.size.height);
 
 	window.setView(mapView);
+}
+
+// manage event handling
+void World::UpdateEvents(sf::RenderWindow& window, Player& player, sf::Event& event)
+{
+	// update player
+	player.KeyInput(window, r, event);
 }
 
 void World::CloseLevel()

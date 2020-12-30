@@ -16,6 +16,7 @@ void GameState::InitialiseState()
 	// init window
 	window.create(sf::VideoMode(1200, 800), "Defenders");
 	window.setFramerateLimit(60);
+	window.setKeyRepeatEnabled(false);
 
 	// focus level
 	levels.emplace_back(std::unique_ptr<Level>(new World(window, player)));
@@ -58,6 +59,8 @@ void GameState::PollEvents()
 
 	while (window.pollEvent(event))
 	{
+
+		// window events
 		if (event.type == sf::Event::EventType::Closed)
 		{
 			CloseGame();
@@ -65,6 +68,12 @@ void GameState::PollEvents()
 		if (event.type == sf::Event::EventType::Resized)
 		{
 			levels.back()->UpdateView(window, event);
+		}
+		
+		// general events
+		if (event.type)
+		{
+			levels.back()->UpdateEvents(window, player, event);
 		}
 	}
 }

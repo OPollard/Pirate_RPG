@@ -1,6 +1,9 @@
 
 #include "Resources.h"
 
+//temp
+#include <iostream>
+
 // loading sequence
 bool Resources::LoadResources()
 {
@@ -28,6 +31,7 @@ bool Resources::FindFilePaths()
 
 	// world
 	if (!ocean.loadFromFile("../assets/world/ocean.png"))								return false;
+	if (!vessels.loadFromFile("../assets/world/chip.png"))						return false;
 
 	// characters
 	if (!player.loadFromFile("../assets/characters/player.png"))						return false;
@@ -96,6 +100,7 @@ bool Resources::FindFilePaths()
 
 	// world
 	if (!ocean.loadFromFile("assets/world/ocean.png"))									return false;
+	if (!vessels.loadFromFile("../assets/world/chip.png"))						return false;
 
 	// characters
 	if (!player.loadFromFile("assets/characters/player.png"))							return false;
@@ -195,10 +200,6 @@ bool Resources::FillPacks()
 
 	shields.push_back(wankel_wooden);
 	shields.push_back(wankel_iron);
-
-
-
-
 
 	return true;
 }

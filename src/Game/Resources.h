@@ -20,6 +20,7 @@ struct Resources
 		// PACKS
 		std::vector<sf::Texture> weapons;
 		std::vector<sf::Texture> shields;
+		std::vector<sf::IntRect> containers;
 
 		// FONTS
 		sf::Font font;
@@ -31,8 +32,9 @@ struct Resources
 
 		// TEXTURES
 		sf::Texture notification;	
-		
 		sf::Texture ocean;
+		sf::Texture vessels;
+
 		sf::IntRect spriteRect{ 0,0,32,32 };
 
 		// CHARACTERS
@@ -88,6 +90,10 @@ struct Resources
 		sf::Texture wankel_wooden;
 		sf::Texture wankel_iron;
 
-		
+		// CONTAINERS
+		sf::IntRect pot_closed_beige = { 0,0,32,32 };
+		sf::IntRect pot_open_beige = { 32,0,32,32 };
+		sf::IntRect chest_closed_red = { 192,160,32,32 };
+
 };
 
