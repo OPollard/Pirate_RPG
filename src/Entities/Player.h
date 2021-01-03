@@ -44,5 +44,6 @@ struct Player : public Entity
 	sf::IntRect sourceSprite{ 0, 64, 64, 64 };
 
 	bool pressed = false;
+
 };
 

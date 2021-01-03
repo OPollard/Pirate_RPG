@@ -160,6 +160,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Entities\Entity.cpp" />
+    <ClCompile Include="Entities\Prop.cpp" />
     <ClCompile Include="Modules\Animation.cpp" />
     <ClCompile Include="Game\Notification.cpp" />
     <ClCompile Include="Game\main.cpp" />
@@ -172,9 +173,11 @@
     <ClCompile Include="Game\Tile.cpp" />
     <ClCompile Include="Game\GUI.cpp" />
     <ClCompile Include="Entities\NPC.cpp" />
+    <ClCompile Include="Modules\Movement.cpp" />
     <ClCompile Include="Modules\Performance.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Entities\Prop.h" />
     <ClInclude Include="Modules\Attachment.h" />
     <ClInclude Include="Modules\Collision.h" />
     <ClInclude Include="Entities\Entity.h" />

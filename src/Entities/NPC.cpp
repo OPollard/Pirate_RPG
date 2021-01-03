@@ -24,14 +24,13 @@ void NPC::Initialise(sf::RenderWindow& window, Resources& r, const std::string& 
 	movement.direction = { AngleToX(dir), AngleToY(dir)};
 	movement.velocity = { movement.direction.x * speed, movement.direction.y * speed };
 
-	movement.xCoord = coord.x;
-	movement.yCoord = coord.y;
+	movement.SetCoord(coord.x, coord.y);
 
 	// init sprite 
 	sprite.setTexture(r.player);
 	sprite.setTextureRect(sourceSprite);
 	sprite.setOrigin(static_cast<float>(sprite.getTextureRect().width / 2), static_cast<float>(sprite.getTextureRect().height / 2));
-	sprite.setPosition(movement.xCoord, movement.yCoord);
+	sprite.setPosition(movement.GetCoord());
 
 	// init clock
 	clock.restart();
@@ -41,26 +40,26 @@ void NPC::Update(sf::RenderWindow& window, Resources& r)
 {
 	
 
-	if (movement.yCoord > 400.0f && std::abs(movement.velocity.y) > 0.1f)
+	if (movement.GetYCoord() > 400.0f && std::abs(movement.velocity.y) > 0.1f)
 	{
 		movement.velocity.y = -(movement.direction.y * movement.speed) ;
 	}
-	if (movement.yCoord < 50.0f && std::abs(movement.velocity.y) > 0.1f)
+	if (movement.GetYCoord() < 50.0f && std::abs(movement.velocity.y) > 0.1f)
 	{
 		movement.velocity.y = (movement.direction.y * movement.speed);
 	}
-	if (movement.xCoord > 400.0f && std::abs(movement.velocity.x) > 0.1f)
+	if (movement.GetXCoord() > 400.0f && std::abs(movement.velocity.x) > 0.1f)
 	{
 		movement.velocity.x = (movement.direction.x * movement.speed);
 	}
-	if (movement.xCoord < 50.0f && std::abs(movement.velocity.x) > 0.1f)
+	if (movement.GetXCoord() < 50.0f && std::abs(movement.velocity.x) > 0.1f)
 	{
 		movement.velocity.x = -(movement.direction.x * movement.speed);
 	}
 
 	// movement
-	movement.xCoord += movement.velocity.x;
-	movement.yCoord += movement.velocity.y;
+	movement.SetXCoord(movement.GetXCoord() + movement.velocity.x);
+	movement.SetYCoord(movement.GetYCoord() + movement.velocity.y);
 
 	// moving up
 	if (movement.velocity.x < -0.1f)
@@ -88,7 +87,7 @@ void NPC::Update(sf::RenderWindow& window, Resources& r)
 	sprite.setTextureRect(sourceSprite);
 
 	// sprite
-	sprite.setPosition(movement.xCoord, movement.yCoord);
+	sprite.setPosition(movement.GetXCoord(), movement.GetYCoord());
 
 	// render
 	window.draw(sprite);

@@ -23,5 +23,4 @@ struct Entity
 
 	Movement movement;
 
-
 };

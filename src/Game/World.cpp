@@ -76,9 +76,8 @@ void World::UpdateAndRender(sf::RenderWindow& window, Player& player)
 // map and environment
 void World::UpdateLevel(sf::RenderWindow& window, Player& player)
 {
-	// update map
-
-	map->Update(window, player, mapView, r);
+	// update map (tiles and props)
+	map->Update(window, player, mapView, r, Level::mousePosMap);
 	Performance::Lap("Update Map");
 
 	map->Render(window, player, mapView);
@@ -103,7 +102,7 @@ void World::UpdateEntities(sf::RenderWindow& window, Player& player)
 // determine collisions
 void World::UpdateCollisions(sf::RenderWindow& window, Player& player)
 {
-	Consolidate(NPCs, player);
+	Consolidate(NPCs, player, map->props);
 }
 
 void World::UpdateGUI(sf::RenderWindow& window, Player& player)
@@ -111,10 +110,10 @@ void World::UpdateGUI(sf::RenderWindow& window, Player& player)
 	// focus view
 	window.setView(window.getDefaultView());
 
-	Level::UpdateMousePositions(window);
+	// mouse
+	Level::UpdateMousePositions(window, *map, player);
 
-
-	if (player.movement.xCoord > 1450 && player.movement.xCoord < 1500)
+	if (player.movement.GetXCoord() > 1450.0f && player.movement.GetXCoord() < 1500.0f)
 	{
 		
 		gui->CreateNotification(window, r, std::string("You found me"), 1);

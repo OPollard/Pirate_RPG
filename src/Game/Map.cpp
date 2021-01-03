@@ -2,8 +2,12 @@
 #include "Resources.h"
 
 #include "..\Entities\Player.h"
+#include "..\Entities\Prop.h"
 
 #include "Map.h"
+
+//temp
+#include <iostream>
 
 Map::Map()
 {
@@ -38,14 +42,31 @@ Map::Map(sf::RenderWindow& window, Resources& r, sf::View& mapView)
 		}
 	}
 
+	// fill map with world props
+	props.push_back(Prop("Tree", r.objSheet, r.tree_lightgreen_tl, 38, 38));
+	props.push_back(Prop("Tree", r.objSheet, r.tree_lightgreen_tr, 39, 38));
+	props.push_back(Prop("Tree", r.objSheet, r.tree_lightgreen_bl, 38, 39));
+	props.push_back(Prop("Tree", r.objSheet, r.tree_lightgreen_br, 39, 39));
+
+	props.push_back(Prop("Tree", r.objSheet, r.tree_lightgreen_tl, 40, 38));
+	props.push_back(Prop("Tree", r.objSheet, r.tree_lightgreen_tr, 41, 38));
+	props.push_back(Prop("Tree", r.objSheet, r.tree_lightgreen_bl, 40, 39));
+	props.push_back(Prop("Tree", r.objSheet, r.tree_lightgreen_br, 41, 39));
+
 }
 
 // main map loop
-void Map::Update(sf::RenderWindow& window, Player& player, sf::View& mapView, Resources& r)
+void Map::Update(sf::RenderWindow& window, Player& player, sf::View& mapView, Resources& r, sf::Vector2i mousePos)
 {
 	UpdateView(window, player, mapView);
-	UpdateTiles(r);
 
+	UpdateTiles(r);
+	
+	CheckMouseLocation(mousePos);
+
+	UpdateProps(window, r);
+
+	
 }
 
 // center view overhead player
@@ -86,18 +107,52 @@ void Map::UpdateTiles(Resources& r)
 	}
 }
 
+void Map::UpdateProps(sf::RenderWindow& window, Resources& r)
+{
+	// update props in world
+	for (auto& p : props)
+	{
+		p.Update(window, r);
+	}
+
+}
+
+void Map::CheckMouseLocation(sf::Vector2i mousePos)
+{
+
+	// prop
+	for (auto& p : props)
+	{
+		if (p.movement.GetPos() == mousePos)
+		{
+			std::cout << p.name << std::endl;
+		}
+	}
+
+	
+
+	// prop
+}
+
 
 void Map::Render(sf::RenderWindow& window, Player& player, sf::View& mapView)
 {
 	// viewable map area
 	window.setView(mapView);
 
+	// draw tiles
 	for (int32_t i = LeftEdge; i < RightEdge; ++i)
 	{
 		for (int32_t j = TopEdge; j < BottomEdge; ++j)
 		{
 			window.draw(map[i][j]->sprite);
 		}
+	}
+
+	// draw props
+	for (const auto& p : props)
+	{
+		window.draw(p.sprite);
 	}
 }
 

@@ -22,14 +22,13 @@ void Player::Initialise(sf::RenderWindow& window, Resources& r)
 	movement.direction = { 0.0f, 0.0f };
 	movement.velocity = { 0.0f, 0.0f };
 	
-	movement.xCoord = 1280; // 32 grid unit
-	movement.yCoord = 1280; // 32 grid unit
+	movement.SetCoord(1280.0f, 1280.0f); // 32 grid unit
 	
 	// init sprite 
-	sprite.setTexture(r.player); // r.player
-	sprite.setTextureRect(sourceSprite); // sourcesprite
+	sprite.setTexture(r.player);
+	sprite.setTextureRect(sourceSprite); 
 	sprite.setOrigin(static_cast<float>(sprite.getTextureRect().width/2),static_cast<float>(sprite.getTextureRect().height/2));
-	sprite.setPosition((float)movement.xCoord, (float)movement.yCoord);
+	sprite.setPosition(movement.GetCoord());
 
 	// init animation timer
 	clock.restart();
@@ -55,7 +54,7 @@ void Player::Update(sf::RenderWindow& window, Resources& r)
 {
 		
 	// position
-	sprite.setPosition((float)movement.xCoord, (float)movement.yCoord);
+	sprite.setPosition(movement.GetCoord());
 	leftHand.sprite.setPosition(sprite.getPosition() + leftHand.offset);
 	rightHand.sprite.setPosition(sprite.getPosition() + rightHand.offset);
 	
@@ -204,8 +203,7 @@ void Player::MoveUp(sf::RenderWindow& window, Resources& r)
 	movement.direction += { 0.0f, -1.0f };
 	movement.facing = eDirection::NORTH;
 	movement.velocity = { movement.direction.x * movement.speed, movement.direction.y * movement.speed };
-	movement.xCoord += movement.velocity.x;
-	movement.yCoord += movement.velocity.y;
+	movement.SetCoord(movement.GetXCoord() + movement.velocity.x, movement.GetYCoord() + movement.velocity.y);
 
 	// set attachment
 	leftHand.offset = { -22.5f, 0.0f };
@@ -232,8 +230,7 @@ void Player::MoveDown(sf::RenderWindow& window, Resources& r)
 	movement.direction += { 0.0f, 1.0f };
 	movement.facing = eDirection::SOUTH;
 	movement.velocity = { movement.direction.x * movement.speed, movement.direction.y * movement.speed };
-	movement.xCoord += movement.velocity.x;
-	movement.yCoord += movement.velocity.y;
+	movement.SetCoord(movement.GetXCoord() + movement.velocity.x, movement.GetYCoord() + movement.velocity.y);
 
 	// set attachment
 	leftHand.offset = { 22.5f, 0.0f };
@@ -260,8 +257,7 @@ void Player::MoveRight(sf::RenderWindow& window, Resources& r)
 	movement.direction += { 1.0f, 0.0f };
 	movement.facing = eDirection::EAST;
 	movement.velocity = { movement.direction.x * movement.speed, movement.direction.y * movement.speed };
-	movement.xCoord += movement.velocity.x;
-	movement.yCoord += movement.velocity.y;
+	movement.SetCoord(movement.GetXCoord() + movement.velocity.x, movement.GetYCoord() + movement.velocity.y);
 
 	// set attachment
 	leftHand.offset = { 12.5f, 5.0f };
@@ -288,8 +284,7 @@ void Player::MoveLeft(sf::RenderWindow& window, Resources& r)
 	movement.direction += { -1.0f, 0.0f };
 	movement.facing = eDirection::WEST;
 	movement.velocity = { movement.direction.x * movement.speed, movement.direction.y * movement.speed };
-	movement.xCoord += movement.velocity.x;
-	movement.yCoord += movement.velocity.y;
+	movement.SetCoord(movement.GetXCoord() + movement.velocity.x, movement.GetYCoord() + movement.velocity.y);
 
 	// set attachment
 	leftHand.offset = { -12.5f, 5.0f };

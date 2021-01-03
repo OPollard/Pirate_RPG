@@ -4,6 +4,7 @@
 #include "SFML/Audio.hpp"
 #include <SFML/System.hpp>
 
+
 struct Resources
 {
 
@@ -20,7 +21,6 @@ struct Resources
 		// PACKS
 		std::vector<sf::Texture> weapons;
 		std::vector<sf::Texture> shields;
-		std::vector<sf::IntRect> containers;
 
 		// FONTS
 		sf::Font font;
@@ -33,7 +33,7 @@ struct Resources
 		// TEXTURES
 		sf::Texture notification;	
 		sf::Texture ocean;
-		sf::Texture vessels;
+		sf::Texture objSheet;
 
 		sf::IntRect spriteRect{ 0,0,32,32 };
 
@@ -89,6 +89,12 @@ struct Resources
 
 		sf::Texture wankel_wooden;
 		sf::Texture wankel_iron;
+
+		// PLANTS
+		sf::IntRect tree_lightgreen_tl = { 0,32,32,32 };
+		sf::IntRect tree_lightgreen_tr = { 32,32,32,32 };
+		sf::IntRect tree_lightgreen_bl = { 0, 64,32,32 };
+		sf::IntRect tree_lightgreen_br = { 32,64,32,32 };
 
 		// CONTAINERS
 		sf::IntRect pot_closed_beige = { 0,0,32,32 };

@@ -2,6 +2,7 @@
 #pragma once
 
 #include "..\Entities\Player.h"
+#include "..\Entities\Prop.h"
 #include "..\Modules\Math.h"
 
 
@@ -19,10 +20,11 @@ static bool Overlaps(const Entity& subject, const Entity& target)
 }
 
 // Halt NPC movement
-static void StopNPC(Entity& target)
+static void StopMovement(Entity& target)
 {
-	target.movement.xCoord -= target.movement.velocity.x;
-	target.movement.yCoord -= target.movement.velocity.y;
+	target.movement.SetXCoord(target.movement.GetXCoord() - target.movement.velocity.x);
+	target.movement.SetYCoord(target.movement.GetYCoord() - target.movement.velocity.y);
+
 }
 
 
@@ -62,7 +64,7 @@ static void ReboundNPCs(Entity& subject, Entity& target)
 }
 
 // complete collision script
-static void Consolidate(std::vector<std::unique_ptr<Entity>>& npcs, Player& player)
+static void Consolidate(std::vector<std::unique_ptr<Entity>>& npcs, Player& player, std::vector<Prop>& props)
 {
 
 	// player queries npc
@@ -70,7 +72,7 @@ static void Consolidate(std::vector<std::unique_ptr<Entity>>& npcs, Player& play
 	{
 		if (Overlaps(player, *npc))
 		{
-			StopNPC(*npc);
+			StopMovement(*npc);
 		}
 	}
 
@@ -91,6 +93,13 @@ static void Consolidate(std::vector<std::unique_ptr<Entity>>& npcs, Player& play
 	}
 
 	// player queries world 
+	for (auto& p : props)
+	{
+		if (Overlaps(player, p))
+		{
+			StopMovement(player);
+		}
+	}
 
 	// npc queries world
 }

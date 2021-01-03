@@ -3,6 +3,7 @@
 #include "SFML/Graphics.hpp"
 
 struct Player;
+struct Map;
 
 struct Level
 {
@@ -23,7 +24,7 @@ struct Level
 	virtual void UpdateGUI(sf::RenderWindow& window, Player& player);
 	virtual void UpdateView(sf::RenderWindow& window, sf::Event& event);
 	virtual void UpdateEvents(sf::RenderWindow& window, Player& player, sf::Event& event);
-	void UpdateMousePositions(sf::RenderWindow& window);
+	void UpdateMousePositions(sf::RenderWindow& window, Map& map, Player& player);
 
 	virtual void CheckEventActions(sf::Event& e);
 	virtual void CloseLevel();
@@ -34,7 +35,7 @@ struct Level
 	sf::Vector2i mousePosScreen;
 	sf::Vector2i mousePosWindow;
 	sf::Vector2f mousePosView;
-
+	sf::Vector2i mousePosMap;
 
 };
 
