@@ -18,6 +18,10 @@ struct Resources
 
 	// ______ VARIABLES ______ \\
 
+		// DATA
+		std::string mapDataFilePath;
+		std::string propLocationsFilePath;
+
 		// PACKS
 		std::vector<sf::Texture> weapons;
 		std::vector<sf::Texture> shields;
@@ -32,9 +36,11 @@ struct Resources
 
 		// TEXTURES
 		sf::Texture notification;	
-		sf::Texture ocean;
 		sf::Texture objSheet;
+		sf::Texture ocean;
 
+		sf::IntRect sandRect{ 192, 0, 32, 32 };
+		sf::IntRect grassRect{ 0, 128, 32,32 };
 		sf::IntRect spriteRect{ 0,0,32,32 };
 
 		// CHARACTERS

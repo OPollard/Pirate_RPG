@@ -13,22 +13,23 @@ struct Player : public Entity
 
 	// ______ CONSTRUCTORS, DESTRUCTORS & INITIALISERS ______ \\
 	
-	void Initialise(sf::RenderWindow& window, Resources& r);
+	void Initialise(sf::RenderWindow& window, const Resources& r);
 
 	// ______ FUNCTIONS ______ \\
 
-	void Update(sf::RenderWindow& window, Resources& r) override;
-	void Render(sf::RenderWindow& window);
-	void MovementInput(sf::RenderWindow& window, Resources& r);
-	void KeyInput(sf::RenderWindow& window, Resources& r, sf::Event& event);
+	void Update(sf::RenderWindow& window, const Resources& r) override;
+	void Render(sf::RenderWindow& window) const;
+	void MovementInput(sf::RenderWindow& window, const Resources& r);
+	void KeyInput(sf::RenderWindow& window, const Resources& r, const sf::Event& event);
 	
 
-	void MoveUp(sf::RenderWindow& window, Resources& r);
-	void MoveDown(sf::RenderWindow& window, Resources& r);
-	void MoveRight(sf::RenderWindow& window, Resources& r);
-	void MoveLeft(sf::RenderWindow& window, Resources& r);
+	void MoveUp(sf::RenderWindow& window, const Resources& r);
+	void MoveDown(sf::RenderWindow& window, const Resources& r);
+	void MoveRight(sf::RenderWindow& window, const Resources& r);
+	void MoveLeft(sf::RenderWindow& window, const Resources& r);
+	void MoveFinish();
 
-	void RandomiseLoot(Resources& r);
+	void RandomiseLoot(const Resources& r);
 
 	
 	// ______ VARIABLES ______ \\
@@ -36,7 +37,7 @@ struct Player : public Entity
 	Attachment leftHand;
 	Attachment rightHand;
 
-	float itemScale = 2.0;
+	const float itemScale = 2.0;
 
 	sf::Clock clock;
 
@@ -44,6 +45,6 @@ struct Player : public Entity
 	sf::IntRect sourceSprite{ 0, 64, 64, 64 };
 
 	bool pressed = false;
-
+	bool moveIntent = false;
 };
 

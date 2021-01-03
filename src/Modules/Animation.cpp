@@ -9,17 +9,36 @@ Animation::Animation()
 }
 
 
-bool Animation::Update(sf::IntRect& sourceSprite, sf::IntRect& startSprite, sf::Clock& clock, float animDuration, int numFrames)
+void Animation::Update(sf::IntRect& sourceSprite, const sf::IntRect& startSprite, sf::Clock& clock, float animDuration, int numFrames, bool horizontalSheet)
 {
-	if (clock.getElapsedTime().asSeconds() < animDuration)
+	// horizontal sprite sheet
+	if (horizontalSheet)
 	{
-		sourceSprite.left = startSprite.left + (int)((clock.getElapsedTime().asSeconds() / (animDuration / numFrames))) * sourceSprite.width;
+		// anim running
+		if (clock.getElapsedTime().asSeconds() < animDuration)
+		{
+			// shift along proportional amount to time
+			sourceSprite.left = startSprite.left + (int)((clock.getElapsedTime().asSeconds() / (animDuration / numFrames))) * sourceSprite.width;
+		}
+		else
+		{
+			clock.restart();
+		}
 	}
+	// vertical sprite sheet
 	else
 	{
-		clock.restart();
+		// anim running
+		if (clock.getElapsedTime().asSeconds() < animDuration)
+		{
+			// shift down proportional amount to time
+			sourceSprite.top = startSprite.top + (int)((clock.getElapsedTime().asSeconds() / (animDuration / numFrames))) * sourceSprite.height;
+		}
+		else
+		{
+			clock.restart();
+		}
 	}
-	return true;
 }
 
 

@@ -1,2 +1,14 @@
-﻿  Prop.cpp
-  defender.vcxproj -> C:\Users\opoll\source\repos\C++\PirateRPG\bin\x64\Debug\defender.exe
+﻿  Entity.cpp
+  NPC.cpp
+  Player.cpp
+  Prop.cpp
+  GUI.cpp
+  Level.cpp
+  Map.cpp
+  State.cpp
+  World.cpp
+  main.cpp
+  Movement.cpp
+  Performance.cpp
+  Generating Code...
+  defender.vcxproj -> D:\Programming\Src\CPP\Pirate_RPG\bin\x64\Debug\defender.exe

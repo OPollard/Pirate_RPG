@@ -8,8 +8,8 @@ Notification::Notification()
 {
 }
 
-Notification::Notification(sf::Font* font,
-	std::string text, Resources& r, sf::RenderWindow& window)
+Notification::Notification(const sf::Font* font,
+	const std::string& text, const Resources& r, sf::RenderWindow& window)
 {
 	// init board
 	board.setScale({ textureScalar, textureScalar });
@@ -34,7 +34,7 @@ Notification::Notification(sf::Font* font,
 	// text wrapping
 	for (size_t index = 0; index < text.size(); ++index)
 	{
-		sf::Vector2f letterPosition = message.findCharacterPos(index);
+		const sf::Vector2f letterPosition = message.findCharacterPos(index);
 
 		if (!board.getGlobalBounds().contains(letterPosition))
 		{

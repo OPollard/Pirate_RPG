@@ -119,5 +119,11 @@
     <ClInclude Include="Entities\Prop.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Modules\Generator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\assets\world\mapdata.txt" />
   </ItemGroup>
 </Project>

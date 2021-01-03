@@ -3,8 +3,20 @@
 
 #include "..\Entities\Player.h"
 #include "..\Entities\Prop.h"
+#include "..\Game\Map.h"
+#include "..\Game\Tile.h"
 #include "..\Modules\Math.h"
 
+
+// check if next tile is walkable
+static bool WalkableFloor(Entity& subject, const Map& map)
+{
+	// predicted player grid poisiton
+	const int32_t nextGridX = static_cast<int32_t>((subject.movement.GetXCoord() + subject.movement.velocity.x) / map.gridUnit);
+	const int32_t nextGridY = static_cast<int32_t>((subject.movement.GetYCoord() + subject.movement.velocity.y) / map.gridUnit) + 1;
+
+	return (map.map[nextGridX][nextGridY]) ? map.map[nextGridX][nextGridY]->walkable : false;
+}
 
 // check if pixels are overlapping with next move
 static bool Overlaps(const Entity& subject, const Entity& target)
@@ -19,31 +31,30 @@ static bool Overlaps(const Entity& subject, const Entity& target)
 	return nextPosition.intersects(target.sprite.getGlobalBounds());
 }
 
-// Halt NPC movement
+// Halt  movement
 static void StopMovement(Entity& target)
 {
 	target.movement.SetXCoord(target.movement.GetXCoord() - target.movement.velocity.x);
 	target.movement.SetYCoord(target.movement.GetYCoord() - target.movement.velocity.y);
-
 }
 
 
 // reverse NPC's velocities
-static void ReboundNPCs(Entity& subject, Entity& target)
+static void ReboundEntities(Entity& subject, Entity& target, const bool reboundTarget)
 {
-	// bool switch to force only 1 directional velocity flip
+	// ensures only direction will change
 	bool isXFlipped = false;
 
-	// next frame x position
+	// predict future x placement
 	sf::FloatRect nextXPosition = subject.sprite.getGlobalBounds();
 	nextXPosition.left += subject.movement.velocity.x;
 
-	// check future collision
 	if (nextXPosition.intersects(target.sprite.getGlobalBounds()))
 	{
 		// reverse horizontal vector
 		Inverse(subject.movement.velocity.x);
-		Inverse(target.movement.velocity.x);
+
+		if(reboundTarget) Inverse(target.movement.velocity.x);
 
 		// prevents y flipping
 		isXFlipped = true;
@@ -58,13 +69,20 @@ static void ReboundNPCs(Entity& subject, Entity& target)
 		if (nextYPosition.intersects(target.sprite.getGlobalBounds()))
 		{
 			Inverse(subject.movement.velocity.y);
-			Inverse(target.movement.velocity.y);
+			if(reboundTarget) Inverse(target.movement.velocity.y);
 		}
 	}
 }
 
+// reverse NPC's velocity
+static void ReboundEntity(Entity& subject)
+{
+	Inverse(subject.movement.velocity.y);
+	Inverse(subject.movement.velocity.x);
+}
+
 // complete collision script
-static void Consolidate(std::vector<std::unique_ptr<Entity>>& npcs, Player& player, std::vector<Prop>& props)
+static void Consolidate(std::vector<std::unique_ptr<Entity>>& npcs, Player& player, Map& map)
 {
 
 	// player queries npc
@@ -86,14 +104,14 @@ static void Consolidate(std::vector<std::unique_ptr<Entity>>& npcs, Player& play
 			{
 				if (Overlaps(*npc, *othernpc))
 				{
-					ReboundNPCs(*npc, *othernpc);
+					ReboundEntities(*npc, *othernpc, true);
 				}
 			}
 		}
 	}
 
-	// player queries world 
-	for (auto& p : props)
+	// player queries prop 
+	for (auto& p : map.props)
 	{
 		if (Overlaps(player, p))
 		{
@@ -101,7 +119,32 @@ static void Consolidate(std::vector<std::unique_ptr<Entity>>& npcs, Player& play
 		}
 	}
 
+	// player queries tiles
+	if (!WalkableFloor(player, map))
+	{
+		StopMovement(player);
+	}
+
+
 	// npc queries world
+	for (auto& n : npcs)
+	{
+		// prop query
+		for (auto& p : map.props)
+		{
+			if (Overlaps(*n, p))
+			{
+				ReboundEntities(*n, p, false);
+			}
+		}
+
+		// tile query
+		if (!WalkableFloor(*n, map))
+		{
+			ReboundEntity(*n);
+		}
+	}
+
 }
 
 

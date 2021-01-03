@@ -4,7 +4,7 @@
 #include "Entity.h"
 
 
-void Entity::Update(sf::RenderWindow& window, Resources& r)
+void Entity::Update(sf::RenderWindow& window, const Resources& r)
 {
 
 }

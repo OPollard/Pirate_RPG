@@ -3,6 +3,7 @@
 
 #include "..\Entities\Player.h"
 #include "..\Entities\Prop.h"
+#include "..\Modules\Generator.h"
 
 #include "Map.h"
 
@@ -14,7 +15,7 @@ Map::Map()
 
 }
 
-Map::Map(sf::RenderWindow& window, Resources& r, sf::View& mapView)
+Map::Map(sf::RenderWindow& window, const Resources& r, sf::View& mapView)
 {
 	
 	// init view
@@ -23,40 +24,46 @@ Map::Map(sf::RenderWindow& window, Resources& r, sf::View& mapView)
 
 	// init clock
 	clock.restart();
-	
-	// calibrate map grid to tile size
-	gridUnit = 32;
 
-	// fill map with tiles
-	for (uint32_t x = 0; x < mapXSize; ++x)
+	// fill map capacity
+	map.resize(mapXSize);
+	for (auto& v : map)
 	{
-		map.emplace_back(std::vector<std::unique_ptr<Tile>>());
-
-		for (uint32_t y = 0; y < mapYSize; ++y)
+		v.resize(mapYSize);
+	}
+	
+	// TEMP FOR LOOPS
+	// fill map with background ocean
+	for (uint32_t x = 0; x < map.size(); x++)
+	{
+		for (uint32_t y = 0; y < map[x].size(); y++)
 		{
-			
-			map[x].emplace_back(std::unique_ptr<Tile>(new Tile(r.ocean)));
-		
+			map[x][y] = std::unique_ptr<Tile>(new Tile(r.ocean, r.spriteRect, false, true, true));
+			// align sprite to coordinates
 			map[x][y]->sprite.setPosition(sf::Vector2f(static_cast<float>(gridUnit * x), static_cast<float>(gridUnit * y)));
-
 		}
 	}
+	// END TEMP
 
-	// fill map with world props
-	props.push_back(Prop("Tree", r.objSheet, r.tree_lightgreen_tl, 38, 38));
-	props.push_back(Prop("Tree", r.objSheet, r.tree_lightgreen_tr, 39, 38));
-	props.push_back(Prop("Tree", r.objSheet, r.tree_lightgreen_bl, 38, 39));
-	props.push_back(Prop("Tree", r.objSheet, r.tree_lightgreen_br, 39, 39));
+	// fill map from tile data in file
+	Generator::ExtractMapData(r.mapDataFilePath, map, gridUnit, r);
 
-	props.push_back(Prop("Tree", r.objSheet, r.tree_lightgreen_tl, 40, 38));
-	props.push_back(Prop("Tree", r.objSheet, r.tree_lightgreen_tr, 41, 38));
-	props.push_back(Prop("Tree", r.objSheet, r.tree_lightgreen_bl, 40, 39));
-	props.push_back(Prop("Tree", r.objSheet, r.tree_lightgreen_br, 41, 39));
+
+	// prop creation
+	props.push_back(Prop("Tree", r.objSheet, r.tree_lightgreen_tl, 5, 4));
+	props.push_back(Prop("Tree", r.objSheet, r.tree_lightgreen_tr, 6, 4));
+	props.push_back(Prop("Tree", r.objSheet, r.tree_lightgreen_bl, 5, 5));
+	props.push_back(Prop("Tree", r.objSheet, r.tree_lightgreen_br, 6, 5));
+
+	props.push_back(Prop("Tree", r.objSheet, r.tree_lightgreen_tl, 15, 8));
+	props.push_back(Prop("Tree", r.objSheet, r.tree_lightgreen_tr, 16, 8));
+	props.push_back(Prop("Tree", r.objSheet, r.tree_lightgreen_bl, 15, 9));
+	props.push_back(Prop("Tree", r.objSheet, r.tree_lightgreen_br, 16, 9));
 
 }
 
 // main map loop
-void Map::Update(sf::RenderWindow& window, Player& player, sf::View& mapView, Resources& r, sf::Vector2i mousePos)
+void Map::Update(sf::RenderWindow& window, Player& player, sf::View& mapView, const Resources& r, const sf::Vector2i& mousePos)
 {
 	UpdateView(window, player, mapView);
 
@@ -65,8 +72,6 @@ void Map::Update(sf::RenderWindow& window, Player& player, sf::View& mapView, Re
 	CheckMouseLocation(mousePos);
 
 	UpdateProps(window, r);
-
-	
 }
 
 // center view overhead player
@@ -95,19 +100,22 @@ void Map::UpdateView(sf::RenderWindow& window, Player& player, sf::View& mapView
 	if (BottomEdge > (int32_t)mapYSize) BottomEdge = mapYSize - 1;
 }
 
-void Map::UpdateTiles(Resources& r)
+void Map::UpdateTiles(const Resources& r)
 {
 	// update tiles within view
 	for (int32_t i = LeftEdge; i < RightEdge; ++i)
 	{
 		for (int32_t j = TopEdge; j < BottomEdge; ++j)
 		{
-			map[i][j]->Update(clock, r);
+			if (map[i][j])
+			{
+				map[i][j]->Update(clock, r);
+			}
 		}
 	}
 }
 
-void Map::UpdateProps(sf::RenderWindow& window, Resources& r)
+void Map::UpdateProps(sf::RenderWindow& window, const Resources& r)
 {
 	// update props in world
 	for (auto& p : props)
@@ -117,9 +125,8 @@ void Map::UpdateProps(sf::RenderWindow& window, Resources& r)
 
 }
 
-void Map::CheckMouseLocation(sf::Vector2i mousePos)
+void Map::CheckMouseLocation(const sf::Vector2i& mousePos)
 {
-
 	// prop
 	for (auto& p : props)
 	{
@@ -129,9 +136,6 @@ void Map::CheckMouseLocation(sf::Vector2i mousePos)
 		}
 	}
 
-	
-
-	// prop
 }
 
 
@@ -145,7 +149,10 @@ void Map::Render(sf::RenderWindow& window, Player& player, sf::View& mapView)
 	{
 		for (int32_t j = TopEdge; j < BottomEdge; ++j)
 		{
-			window.draw(map[i][j]->sprite);
+			if (map[i][j])
+			{
+				window.draw(map[i][j]->sprite);
+			}
 		}
 	}
 

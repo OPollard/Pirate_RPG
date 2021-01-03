@@ -1,9 +1,6 @@
 
 #include "Resources.h"
 
-//temp
-#include <iostream>
-
 // loading sequence
 bool Resources::LoadResources()
 {
@@ -18,6 +15,9 @@ bool Resources::FindFilePaths()
 	// debug resource file paths
 #if _DEBUG
 
+	// data
+	mapDataFilePath = "../assets/world/mapdata.txt";
+
 	// fonts
 	if (!font.loadFromFile("../assets/fonts/arial.ttf"))								return false;
 	if (!notificationFont.loadFromFile("../assets/fonts/notificationfont.ttf"))			return false;
@@ -28,10 +28,8 @@ bool Resources::FindFilePaths()
 
 	// textures
 	if (!notification.loadFromFile("../assets/textures/notificationboard.png"))			return false;
-
-	// world
-	if (!ocean.loadFromFile("../assets/world/ocean.png"))								return false;
-	if (!objSheet.loadFromFile("../assets/world/chip.png"))								return false;
+	if (!objSheet.loadFromFile("../assets/textures/chip.png"))							return false;
+	if (!ocean.loadFromFile("../assets/textures/ocean.png"))							return false;
 
 	// characters
 	if (!player.loadFromFile("../assets/characters/player.png"))						return false;
@@ -87,6 +85,9 @@ bool Resources::FindFilePaths()
 
 	// release resource file paths
 
+	// data
+	mapDataFilePath = "assets/world/mapdata.txt";
+
 	// fonts
 	if (!font.loadFromFile("assets/fonts/arial.ttf"))									return false;
 	if (!notificationFont.loadFromFile("assets/fonts/notificationfont.ttf"))			return false;
@@ -97,10 +98,8 @@ bool Resources::FindFilePaths()
 
 	// textures
 	if (!notification.loadFromFile("assets/textures/notificationboard.png"))			return false;
-
-	// world
-	if (!ocean.loadFromFile("assets/world/ocean.png"))									return false;
-	if (!objSheet.loadFromFile("../assets/world/chip.png"))								return false;
+	if (!objSheet.loadFromFile("../assets/textures/chip.png"))							return false;
+	if (!ocean.loadFromFile("assets/textures/ocean.png"))								return false;
 
 	// characters
 	if (!player.loadFromFile("assets/characters/player.png"))							return false;

@@ -13,7 +13,7 @@ struct Animation
 
 	// ______ FUNCTIONS ______ \\
 	
-	bool Update(sf::IntRect& sourceSprite, sf::IntRect& startSprite, sf::Clock& clock, float animDuration, int numFrames);
+	void Update(sf::IntRect& sourceSprite, const sf::IntRect& startSprite, sf::Clock& clock, float animDuration, int numFrames, bool horizontalSheet);
 
 	// ______ SPECIFIC FUNCTIONS ______ \\
 

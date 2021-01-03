@@ -16,21 +16,21 @@ struct Movement
 
 	// ______ FUNCTIONS ______ \\
 
-	void SetXPos(int32_t x);
-	void SetYPos(int32_t y);
-	void SetPos(int32_t x, int32_t y);
+	void SetXPos(const int32_t x);
+	void SetYPos(const int32_t y);
+	void SetPos(const int32_t x, const int32_t y);
 
-	void SetXCoord(float x);
-	void SetYCoord(float y);
-	void SetCoord(float x, float y);
+	void SetXCoord(const float x);
+	void SetYCoord(const float y);
+	void SetCoord(const float x, const float y);
 
-	int32_t GetXPos();
-	int32_t GetYPos();
-	sf::Vector2i GetPos();
+	int32_t GetXPos() const;
+	int32_t GetYPos() const;
+	sf::Vector2i GetPos() const;
 
-	float GetXCoord();
-	float GetYCoord();
-	sf::Vector2f GetCoord();
+	float GetXCoord() const;
+	float GetYCoord() const;
+	sf::Vector2f GetCoord() const;
 
 
 	// ______ VARIABLES ______ \\

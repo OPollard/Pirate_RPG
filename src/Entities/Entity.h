@@ -12,7 +12,7 @@ struct Entity
 	
 	// ______ FUNCTIONS ______ \\
 
-	virtual void Update(sf::RenderWindow& window, Resources& r);
+	virtual void Update(sf::RenderWindow& window, const Resources& r);
 
 
 	// ______ VARIABLES ______ \\

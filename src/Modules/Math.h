@@ -22,13 +22,13 @@ static float AngleToY(const float deg)
 }
 
 // converts screen degrees ( 0 is North ) , to world degrees ( 0 is East ) 
-static float WorldDeg(float deg)
+static float WorldDeg(const float deg)
 {
 	return deg - 90;
 }
 
 // return inverse value
-static float Inverse(float deg)
+static float Inverse(float& deg)
 {
 	return deg *= -1.0f;
 }

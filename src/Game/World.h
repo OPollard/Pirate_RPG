@@ -27,8 +27,8 @@ struct World : public Level
 	void UpdateCollisions(sf::RenderWindow& window, Player& player) override;
 	void UpdateLevel(sf::RenderWindow& window, Player& player) override;
 	void UpdateGUI(sf::RenderWindow& window, Player& player) override;
-	void UpdateView(sf::RenderWindow& window, sf::Event& event) override;
-	void UpdateEvents(sf::RenderWindow& window, Player& player, sf::Event& event) override;
+	void UpdateView(sf::RenderWindow& window, const sf::Event& event) override;
+	void UpdateEvents(sf::RenderWindow& window, Player& player, const sf::Event& event) override;
 
 	void CloseLevel() override;
 

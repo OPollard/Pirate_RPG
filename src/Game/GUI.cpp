@@ -11,7 +11,7 @@ GUI::GUI()
 {
 }
 
-GUI::GUI(sf::RenderWindow& window, Resources& r)
+GUI::GUI(sf::RenderWindow& window, const Resources& r)
 {
 	// init fps
 	frame = 0;
@@ -22,7 +22,7 @@ GUI::GUI(sf::RenderWindow& window, Resources& r)
 }
 
 
-void GUI::Update(sf::RenderWindow& window, sf::Vector2f mousePos)
+void GUI::Update(sf::RenderWindow& window, const sf::Vector2f& mousePos)
 {
 	UpdateFPS(window);
 	UpdateMessages(window, mousePos);
@@ -33,7 +33,7 @@ void GUI::UpdateFPS(sf::RenderWindow & window)
 {
 	frame++;
 
-	float t1 = clock.getElapsedTime().asSeconds();
+	const float t1 = clock.getElapsedTime().asSeconds();
 	
 	if (t1 >= 1.0f)
 	{
@@ -48,7 +48,7 @@ void GUI::UpdateFPS(sf::RenderWindow & window)
 }
 
 // message stack
-void GUI::UpdateMessages(sf::RenderWindow& window, sf::Vector2f mousePos)
+void GUI::UpdateMessages(sf::RenderWindow& window, const sf::Vector2f& mousePos)
 {
 	if (messages.size() != 0)
 	{
@@ -67,7 +67,7 @@ void GUI::UpdateMessages(sf::RenderWindow& window, sf::Vector2f mousePos)
 }
 
 // create new notification
-void GUI::CreateNotification(sf::RenderWindow& window, Resources& r, const std::string& text, int messageID)
+void GUI::CreateNotification(sf::RenderWindow& window, const Resources& r, const std::string& text, const int messageID)
 {
 
 	bool alreadyRequested = false;

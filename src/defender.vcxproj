@@ -194,7 +194,11 @@
     <ClInclude Include="Game\GUI.h" />
     <ClInclude Include="Entities\NPC.h" />
     <ClInclude Include="Modules\Movement.h" />
+    <ClInclude Include="Modules\Generator.h" />
     <ClInclude Include="Modules\Performance.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\assets\world\mapdata.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

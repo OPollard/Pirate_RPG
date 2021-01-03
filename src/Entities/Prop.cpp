@@ -2,7 +2,7 @@
 
 #include "Prop.h"
 
-Prop::Prop(std::string name, sf::Texture& sourceTexture, sf::IntRect sourceSprite, int32_t xPos, int32_t yPos, bool canMove, bool interactable, bool destructable)
+Prop::Prop(const std::string& name, const sf::Texture& sourceTexture, const sf::IntRect sourceSprite, int32_t xPos, int32_t yPos, bool canMove, bool interactable, bool destructable)
 {
 	// init movement
 	movement.SetPos(xPos, yPos);
@@ -21,7 +21,7 @@ Prop::Prop(std::string name, sf::Texture& sourceTexture, sf::IntRect sourceSprit
 
 }
 
-void Prop::Update(sf::RenderWindow& window, Resources& r)
+void Prop::Update(sf::RenderWindow& window, const Resources& r)
 {
 
 }

@@ -7,13 +7,13 @@
 #include "NPC.h"
 
 
-NPC::NPC(sf::RenderWindow& window, Resources& r, const std::string& name, bool enableMovement, sf::Vector2f coord, float speed, float dir)
+NPC::NPC(sf::RenderWindow& window, const Resources& r, const std::string& name, const bool enableMovement, sf::Vector2f coord, float speed, float dir)
 {
 	Initialise(window, r, name, enableMovement, coord, speed, dir);
 }
 
 
-void NPC::Initialise(sf::RenderWindow& window, Resources& r, const std::string& name, bool enableMovement, sf::Vector2f coord, float speed, float dir)
+void NPC::Initialise(sf::RenderWindow& window, const Resources& r, const std::string& name, const bool enableMovement, sf::Vector2f coord, float speed, float dir)
 {
 	// init attributes
 	this->name = name;
@@ -36,26 +36,8 @@ void NPC::Initialise(sf::RenderWindow& window, Resources& r, const std::string& 
 	clock.restart();
 }
 
-void NPC::Update(sf::RenderWindow& window, Resources& r)
+void NPC::Update(sf::RenderWindow& window, const Resources& r)
 {
-	
-
-	if (movement.GetYCoord() > 400.0f && std::abs(movement.velocity.y) > 0.1f)
-	{
-		movement.velocity.y = -(movement.direction.y * movement.speed) ;
-	}
-	if (movement.GetYCoord() < 50.0f && std::abs(movement.velocity.y) > 0.1f)
-	{
-		movement.velocity.y = (movement.direction.y * movement.speed);
-	}
-	if (movement.GetXCoord() > 400.0f && std::abs(movement.velocity.x) > 0.1f)
-	{
-		movement.velocity.x = (movement.direction.x * movement.speed);
-	}
-	if (movement.GetXCoord() < 50.0f && std::abs(movement.velocity.x) > 0.1f)
-	{
-		movement.velocity.x = -(movement.direction.x * movement.speed);
-	}
 
 	// movement
 	movement.SetXCoord(movement.GetXCoord() + movement.velocity.x);
@@ -64,19 +46,19 @@ void NPC::Update(sf::RenderWindow& window, Resources& r)
 	// moving up
 	if (movement.velocity.x < -0.1f)
 	{
-		animation.Update(sourceSprite, r.walkLeft, clock, 1 / (movement.speed / 2), 4);
+		animation.Update(sourceSprite, r.walkLeft, clock, 1 / (movement.speed / 2), 4, true);
 	}
 	else if (movement.velocity.x > 0.1f)
 	{
-		animation.Update(sourceSprite, r.walkRight, clock, 1 / (movement.speed / 2), 4);
+		animation.Update(sourceSprite, r.walkRight, clock, 1 / (movement.speed / 2), 4, true);
 	}
 	else if (movement.velocity.y > 0.1f)
 	{
-		animation.Update(sourceSprite, r.walkDown, clock, 1 / (movement.speed / 2), 4);
+		animation.Update(sourceSprite, r.walkDown, clock, 1 / (movement.speed / 2), 4, true);
 	}
 	else if (movement.velocity.y < -0.1f)
 	{
-		animation.Update(sourceSprite, r.walkUp, clock, 1 / (movement.speed / 2), 4);
+		animation.Update(sourceSprite, r.walkUp, clock, 1 / (movement.speed / 2), 4, true);
 	}
 	else
 	{

@@ -6,11 +6,11 @@
 
 #include "Player.h"
 
-
-// temp
+//temp
 #include <iostream>
 
-void Player::Initialise(sf::RenderWindow& window, Resources& r)
+
+void Player::Initialise(sf::RenderWindow& window, const Resources& r)
 {
 
 	// init attributes
@@ -22,7 +22,7 @@ void Player::Initialise(sf::RenderWindow& window, Resources& r)
 	movement.direction = { 0.0f, 0.0f };
 	movement.velocity = { 0.0f, 0.0f };
 	
-	movement.SetCoord(1280.0f, 1280.0f); // 32 grid unit
+	movement.SetPos(12,12); // 32 grid unit
 	
 	// init sprite 
 	sprite.setTexture(r.player);
@@ -50,7 +50,7 @@ void Player::Initialise(sf::RenderWindow& window, Resources& r)
 	rightHand.sprite.setScale(itemScale, itemScale);
 }
 
-void Player::Update(sf::RenderWindow& window, Resources& r)
+void Player::Update(sf::RenderWindow& window, const Resources& r)
 {
 		
 	// position
@@ -67,7 +67,7 @@ void Player::Update(sf::RenderWindow& window, Resources& r)
 }
 
 // draw all player components
-void Player::Render(sf::RenderWindow& window)
+void Player::Render(sf::RenderWindow& window) const
 {
 
 	// change drawing order based on direction
@@ -98,40 +98,44 @@ void Player::Render(sf::RenderWindow& window)
 }
 
 // user input
-void Player::MovementInput(sf::RenderWindow& window, Resources& r)
+void Player::MovementInput(sf::RenderWindow& window, const Resources& r)
 {
 	
 	typedef sf::Keyboard k;
 
 	// reset for new input
 	movement.direction = { 0.0f, 0.0f };
+	moveIntent = false;
 
+	if (k::isKeyPressed(k::W) || k::isKeyPressed(k::Up))
+	{
+		MoveUp(window, r);
+	}
 
-		if (k::isKeyPressed(k::W) || k::isKeyPressed(k::Up))
-		{
-			MoveUp(window, r);
-		}
+	if (k::isKeyPressed(k::S) || k::isKeyPressed(k::Down))
+	{
+		MoveDown(window, r);
+	}
 
-		if (k::isKeyPressed(k::S) || k::isKeyPressed(k::Down))
-		{
-			MoveDown(window, r);
-		}
+	if (k::isKeyPressed(k::D) || k::isKeyPressed(k::Right))
+	{
+		MoveRight(window, r);
+	}
 
-		if (k::isKeyPressed(k::D) || k::isKeyPressed(k::Right))
-		{
-			MoveRight(window, r);
-		}
+	if (k::isKeyPressed(k::A) || k::isKeyPressed(k::Left))
+	{
+		MoveLeft(window, r);
+	}
 
-		if (k::isKeyPressed(k::A) || k::isKeyPressed(k::Left))
-		{
-			MoveLeft(window, r);
-		}
-
+	if (moveIntent)
+	{
+		MoveFinish();
+	}
 
 }
 
 // player keyboard / mouse commands
-void Player::KeyInput(sf::RenderWindow& window, Resources& r, sf::Event& event)
+void Player::KeyInput(sf::RenderWindow& window, const Resources& r, const sf::Event& event)
 {
 
 	// actions on press
@@ -160,11 +164,11 @@ void Player::KeyInput(sf::RenderWindow& window, Resources& r, sf::Event& event)
 
 }
 
-void Player::RandomiseLoot(Resources& r)
+void Player::RandomiseLoot( const Resources& r)
 {
 
 	// random
-	int index = std::rand() % 25;
+	const int index = std::rand() % 25;
 
 	// copy new sprite locally
 	sf::Sprite newWep;
@@ -179,7 +183,7 @@ void Player::RandomiseLoot(Resources& r)
 	leftHand.sprite.setScale(itemScale, itemScale);
 
 	// random
-	int sIndex = std::rand() % 10;
+	const int sIndex = std::rand() % 10;
 	
 	// copy new sprite locally
 	sf::Sprite newShield;
@@ -197,13 +201,11 @@ void Player::RandomiseLoot(Resources& r)
 }
 
 // movement changes
-void Player::MoveUp(sf::RenderWindow& window, Resources& r)
+void Player::MoveUp(sf::RenderWindow& window, const Resources& r)
 {
 	// set movement
 	movement.direction += { 0.0f, -1.0f };
 	movement.facing = eDirection::NORTH;
-	movement.velocity = { movement.direction.x * movement.speed, movement.direction.y * movement.speed };
-	movement.SetCoord(movement.GetXCoord() + movement.velocity.x, movement.GetYCoord() + movement.velocity.y);
 
 	// set attachment
 	leftHand.offset = { -22.5f, 0.0f };
@@ -212,25 +214,22 @@ void Player::MoveUp(sf::RenderWindow& window, Resources& r)
 	leftHand.sprite.setRotation(-35.0f); 
 
 	// update character animation
-	animation.Update(sourceSprite, r.walkUp, clock, 1 / (movement.speed / 2), 4);
+	animation.Update(sourceSprite, r.walkUp, clock, 1 / (movement.speed / 2), 4, true);
 
 	// update attachment animation
 	animation.WalkingItem(leftHand, clock, 1 / (movement.speed / 2), false, true);
 	animation.WalkingItem(rightHand, clock, 1 / (movement.speed / 2), true, true);
 
-	// apply new sprite
-	sprite.setTextureRect(sourceSprite);
+	// declare intent
+	moveIntent = true;
 
-	
 }
 
-void Player::MoveDown(sf::RenderWindow& window, Resources& r)
+void Player::MoveDown(sf::RenderWindow& window, const Resources& r)
 {
 	// set movement
 	movement.direction += { 0.0f, 1.0f };
 	movement.facing = eDirection::SOUTH;
-	movement.velocity = { movement.direction.x * movement.speed, movement.direction.y * movement.speed };
-	movement.SetCoord(movement.GetXCoord() + movement.velocity.x, movement.GetYCoord() + movement.velocity.y);
 
 	// set attachment
 	leftHand.offset = { 22.5f, 0.0f };
@@ -239,25 +238,21 @@ void Player::MoveDown(sf::RenderWindow& window, Resources& r)
 	leftHand.sprite.setRotation(35.0f); 
 
 	// update character animation
-	animation.Update(sourceSprite, r.walkDown, clock, 1 / (movement.speed / 2), 4);
+	animation.Update(sourceSprite, r.walkDown, clock, 1 / (movement.speed / 2), 4, true);
 
 	// update attachment animation
 	animation.WalkingItem(leftHand, clock, 1 / (movement.speed / 2), true, true);
 	animation.WalkingItem(rightHand, clock, 1 / (movement.speed / 2), false, true);
 
-	// apply new sprite
-	sprite.setTextureRect(sourceSprite);
-
+	// declare intent
+	moveIntent = true;
 }
 
-void Player::MoveRight(sf::RenderWindow& window, Resources& r)
+void Player::MoveRight(sf::RenderWindow& window, const Resources& r)
 {
-
 	// set movement
 	movement.direction += { 1.0f, 0.0f };
 	movement.facing = eDirection::EAST;
-	movement.velocity = { movement.direction.x * movement.speed, movement.direction.y * movement.speed };
-	movement.SetCoord(movement.GetXCoord() + movement.velocity.x, movement.GetYCoord() + movement.velocity.y);
 
 	// set attachment
 	leftHand.offset = { 12.5f, 5.0f };
@@ -266,25 +261,21 @@ void Player::MoveRight(sf::RenderWindow& window, Resources& r)
 	leftHand.sprite.setRotation(60.0f); 
 
 	// update character animation
-	animation.Update(sourceSprite, r.walkRight, clock, 1 / (movement.speed / 2), 4);
+	animation.Update(sourceSprite, r.walkRight, clock, 1 / (movement.speed / 2), 4, true);
 	
 	// update attachment animation
 	animation.WalkingItem(leftHand, clock, 1 / (movement.speed / 2), false, false);
 	animation.WalkingItem(rightHand, clock, 1 / (movement.speed / 2), true, false);
 
-	// apply new sprite
-	sprite.setTextureRect(sourceSprite);
-
+	// declare intent
+	moveIntent = true;
 }
 
-void Player::MoveLeft(sf::RenderWindow& window, Resources& r)
+void Player::MoveLeft(sf::RenderWindow& window, const Resources& r)
 {
-
 	// set movement
 	movement.direction += { -1.0f, 0.0f };
 	movement.facing = eDirection::WEST;
-	movement.velocity = { movement.direction.x * movement.speed, movement.direction.y * movement.speed };
-	movement.SetCoord(movement.GetXCoord() + movement.velocity.x, movement.GetYCoord() + movement.velocity.y);
 
 	// set attachment
 	leftHand.offset = { -12.5f, 5.0f };
@@ -293,14 +284,23 @@ void Player::MoveLeft(sf::RenderWindow& window, Resources& r)
 	leftHand.sprite.setRotation(-60.0f); 
 
 	// update character animation
-	animation.Update(sourceSprite, r.walkLeft, clock, 1 / (movement.speed / 2), 4);
+	animation.Update(sourceSprite, r.walkLeft, clock, 1 / (movement.speed / 2), 4, true);
 
 	// update attachment animation
 	animation.WalkingItem(leftHand, clock, 1 / (movement.speed / 2), true, false);
 	animation.WalkingItem(rightHand, clock, 1 / (movement.speed / 2), false, false);
 
+	// declare intent
+	moveIntent = true;
+}
+
+// unified move actions
+void Player::MoveFinish()
+{
+	// apply movement
+	movement.velocity = { movement.direction.x * movement.speed, movement.direction.y * movement.speed };
+	movement.SetCoord(movement.GetXCoord() + movement.velocity.x, movement.GetYCoord() + movement.velocity.y);
+
 	// apply new sprite
 	sprite.setTextureRect(sourceSprite);
-
-
 }

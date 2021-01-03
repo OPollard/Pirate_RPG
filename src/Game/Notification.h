@@ -10,7 +10,7 @@ struct Notification
 	// ______ CONSTRUCTORS, DESTRUCTORS & INITIALISERS ______ \\
 
 	Notification();
-	Notification(sf::Font* font, std::string text, Resources& r, sf::RenderWindow& window);
+	Notification(const sf::Font* font,const std::string& text, const Resources& r, sf::RenderWindow& window);
 	~Notification();
 
 	// ______ FUNCTIONS ______ \\

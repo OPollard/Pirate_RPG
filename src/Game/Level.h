@@ -22,11 +22,11 @@ struct Level
 	virtual void UpdateCollisions(sf::RenderWindow& window, Player& player);
 	virtual void UpdateLevel(sf::RenderWindow& window, Player& player);
 	virtual void UpdateGUI(sf::RenderWindow& window, Player& player);
-	virtual void UpdateView(sf::RenderWindow& window, sf::Event& event);
-	virtual void UpdateEvents(sf::RenderWindow& window, Player& player, sf::Event& event);
-	void UpdateMousePositions(sf::RenderWindow& window, Map& map, Player& player);
+	virtual void UpdateView(sf::RenderWindow& window, const sf::Event& event);
+	virtual void UpdateEvents(sf::RenderWindow& window, Player& player, const sf::Event& event);
+	void UpdateMousePositions(sf::RenderWindow& window, const Map& map, Player& player);
 
-	virtual void CheckEventActions(sf::Event& e);
+	virtual void CheckEventActions(const sf::Event& e);
 	virtual void CloseLevel();
 
 

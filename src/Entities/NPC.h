@@ -9,12 +9,12 @@ struct NPC : public Entity
 
 	// ______ CONSTRUCTORS, DESTRUCTORS & INITIALISERS ______ \\
 	
-	NPC(sf::RenderWindow& window, Resources& r, const std::string& name, bool enableMovement, sf::Vector2f coord, float speed, float dir);
-	void Initialise(sf::RenderWindow& window, Resources& r, const std::string& name, bool enableMovement, sf::Vector2f coord, float speed, float dir);
+	NPC(sf::RenderWindow& window, const Resources& r, const std::string& name, const bool enableMovement, sf::Vector2f coord, float speed, float dir);
+	void Initialise(sf::RenderWindow& window, const Resources& r, const std::string& name, const bool enableMovement, sf::Vector2f coord, float speed, float dir);
 
 	// ______ FUNCTIONS ______ \\
 
-	void Update(sf::RenderWindow& window, Resources& r) override;
+	void Update(sf::RenderWindow& window, const Resources& r) override;
 
 	// ______ VARIABLES ______ \\
 

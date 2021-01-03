@@ -8,28 +8,36 @@ float Tile::animDuration = 4.0f;
 
 Tile::Tile()
 {
-
+	walkable = false;
+	animated = false;
+	horizontalAnim = false;
 }
 
 // singular 
-Tile::Tile(sf::Texture& texture)
+Tile::Tile(const sf::Texture& texture, const sf::IntRect& sourceRect, bool walkable, bool animated, const bool horizontalAnim )
 {
-	sprite.setTexture(texture);
-	sprite.setTextureRect(sourceSprite);
+	this->walkable = walkable;
+	this->animated = animated;
+	this->horizontalAnim = horizontalAnim;
 
+	sprite.setTexture(texture);
+	sprite.setTextureRect(sourceRect);
 }
 
 // collection
 Tile::Tile(std::vector<sf::Texture>& textures)
 {
-
+	walkable = false;
+	animated = false;
+	horizontalAnim = false;
 }
 
 // update animated tiles
-void Tile::Update(sf::Clock& clock, Resources& r)
+void Tile::Update(sf::Clock& clock, const Resources& r)
 {
-	if (animation.Update(sourceSprite, r.spriteRect, clock, animDuration, 4))
+	if (animated)
 	{
+		animation.Update(sourceSprite, r.spriteRect, clock, animDuration, 4, horizontalAnim);
 		sprite.setTextureRect(sourceSprite);
 	}
 }
